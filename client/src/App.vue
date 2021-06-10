@@ -23,9 +23,14 @@ export default {
       bgColor: [
           'linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%)',
           'linear-gradient(120deg, #a6c0fe 0%, #f68084 100%)',
-          'linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%)',
-          'linear-gradient(120deg, #f6d365 0%, #fda085 100%)',
           'linear-gradient(to top, #fff1eb 0%, #ace0f9 100%)',
+          'linear-gradient(-225deg, #69EACB 0%, #EACCF8 48%, #6654F1 100%)',
+          'linear-gradient(-225deg, #D4FFEC 0%, #57F2CC 48%, #4596FB 100%)',
+          'linear-gradient(-225deg, #FFFEFF 0%, #D7FFFE 100%)',
+          'linear-gradient(-225deg, #E3FDF5 0%, #FFE6FA 100%)',
+          'linear-gradient(-225deg, #7DE2FC 0%, #B9B6E5 100%)',
+          'linear-gradient(-225deg, #2CD8D5 0%, #C5C1FF 56%, #FFBAC3 100%)',
+          'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
       ],
       val: ''
     }
@@ -44,21 +49,29 @@ export default {
     NavBar
   },
   mounted() {
-    this.val = sessionStorage.getItem('bgColor')
+    // 选择背景颜色
+    this.val = localStorage.getItem('bgColor');
     document.body.style.setProperty('background-image', this.val, 'important');
+
+    // 保存 state 状态
+    window.addEventListener('unload', this.saveState);
   },
   methods: {
+    // 改变背景颜色
     changeBgColor() {
       const el = document.body.style;
       let val = this.bgColor[Math.floor((Math.random() * this.bgColor.length))];
-      console.log(val)
-      console.log(this.val)
       while (val === this.val) {
         val = this.bgColor[Math.floor((Math.random() * this.bgColor.length))];
       }
       this.val = val;
       el.setProperty('background-image', val, 'important');
-      sessionStorage.setItem('bgColor', val)
+      localStorage.setItem('bgColor', val)
+    },
+
+    // 保存状态
+    saveState() {
+      sessionStorage.setItem("state",JSON.stringify(this.$store.state))
     }
   }
 }
@@ -79,11 +92,11 @@ body{
   padding: 0;
 
   /*background-color: #C7EDCC;*/
-  background-image: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%) !important;
+  background-image: linear-gradient(120deg, #a6c0fe 0%, #f68084 100%) !important;
   background-repeat: no-repeat !important;
   background-attachment: fixed;
 
-  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
 }
 
 .router-view{

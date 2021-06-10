@@ -77,24 +77,24 @@ export default {
   transform: translateX(-50%);
   position: fixed;
   z-index: 99;
-  box-shadow: rgb(0 0 0 / 17%) 13px 15px 13px 2px;
+  box-shadow: rgba(0, 0, 0, .17) 13px 15px 13px 2px;
 }
 #nav_bar :hover {
 }
-#nav_bar ::v-deep(.el-menu--horizontal) {
+#nav_bar >>> .el-menu--horizontal {
   border-radius: 8px;
   overflow: hidden;
 }
 
-#nav_bar ::v-deep(.el-menu--horizontal) > .el-menu-item {
+#nav_bar >>> .el-menu--horizontal > .el-menu-item {
   height: 72px;
   line-height: 72px;
 }
-#nav_bar ::v-deep(.el-menu--horizontal) > .el-submenu {
+#nav_bar >>> .el-menu--horizontal > .el-submenu {
   height: 72px;
   line-height: 72px;
 }
-#nav_bar ::v-deep(.el-menu--horizontal) > .el-submenu  .el-submenu__title{
+#nav_bar >>> .el-menu--horizontal > .el-submenu  .el-submenu__title{
   line-height: 72px;
   height: 72px;
 }

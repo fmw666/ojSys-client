@@ -172,7 +172,7 @@ export default ({
 
 <style scoped>
 
-.container ::v-deep(.el-card) {
+.container >>> .el-card {
   padding: 10px 20px;
 }
 .header {

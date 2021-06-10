@@ -631,7 +631,7 @@ export default ({
 
 <style scoped>
 
-.container ::v-deep(.el-card) {
+.container >>> .el-card {
   padding: 10px 20px;
 }
 .header {
@@ -675,11 +675,11 @@ export default ({
   flex: 1;
 }
 
-.tables  ::v-deep(.el-table__expanded-cell) {
+.tables >>> .el-table__expanded-cell {
   padding: 20px;
 }
 
-.tables  ::v-deep(.el-table__expanded-cell) div {
+.tables >>> .el-table__expanded-cell div {
   margin-bottom: 10px;
 }
 

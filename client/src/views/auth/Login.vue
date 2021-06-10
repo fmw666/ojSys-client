@@ -98,20 +98,24 @@ export default {
           responseType: 'json',
           withCredentials: true
         })
-        .then(response => {
+        .then(res => {
           if (this.remember) {
             // 记住登录
             sessionStorage.clear();
-            localStorage.token = response.data.token;
-            localStorage.user_id = response.data.user_id;
-            localStorage.username = response.data.username;
+            localStorage.token = res.data.token;
+            localStorage.user_id = res.data.user_id;
+            localStorage.username = res.data.username;
           } else {
             // 未记住登录
             localStorage.clear();
-            sessionStorage.token = response.data.token;
-            sessionStorage.user_id = response.data.user_id;
-            sessionStorage.username = response.data.username;
+            sessionStorage.token = res.data.token;
+            sessionStorage.user_id = res.data.user_id;
+            sessionStorage.username = res.data.username;
           }
+          this.$store.commit("setToken", res.data.token);
+          this.$store.commit("setUserId", res.data.user_id);
+          this.$store.commit("setUsername", res.data.username);
+
           // 跳转页面
           let return_url = this.get_query_string('next');
           if (!return_url) {

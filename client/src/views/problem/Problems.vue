@@ -443,7 +443,7 @@ export default {
   user-select: none;
 }
 
-.ranting > ::v-deep(.el-card) > .el-card__body {
+.ranting > >>> .el-card > .el-card__body {
   padding: 20px 30px;
 }
 
@@ -456,7 +456,7 @@ export default {
   margin: 10px 0;
 }
 
-.items ::v-deep(.el-card) > .el-card__body {
+.items >>> .el-card > .el-card__body {
   padding: 12px 0 12px 20px;
 }
 

@@ -112,6 +112,8 @@
 
 <script>
 import {Base, Auth} from '../../components/mixins'
+import {get_my_forums, get_forums} from '../../api/forum'
+
 export default {
   name: "forum",
   mixins: [Base, Auth],
@@ -161,33 +163,26 @@ export default {
 
     // 获取数据
     get_forums() {
-      this.$axios.get(this.$host + "/api/v1/forums/", {
-        params: {
-          page: this.page,
-          page_size: this.page_size,
-          ordering: this.ordering,
-          from: this.activeName
-        },
-        responseType: 'json'
-      }).then(response => {
-        this.count = response.data.count
-        this.forums = response.data.results
-      }).catch(error => {
-        console.log(error.response.data)
+      let params = {
+        page: this.page,
+        page_size: this.page_size,
+        ordering: this.ordering,
+        from: this.activeName
+      };
+      get_forums(params).then(res => {
+        this.count = res.data.count
+        this.forums = res.data.results
+      }).catch(err => {
+        console.log(err)
       })
     },
 
     get_my_forums() {
       if (this.user_id && this.token) {
-        this.$axios.get(this.$host + "/api/v1/user/", {
-        // 向后端传递 JWT token 的方法
-        headers: {
-          'Authorization': 'JWT ' + this.token
-        },
-        responseType: 'json'
-        }).then(response => {
-          // 加载用户数据
-          this.forum_post = response.data['forum_author']
+        get_my_forums().then(res => {
+          this.forum_post = res.data['forum_author']
+        }).catch(err => {
+          console.log(err)
         })
       }
     }
@@ -220,7 +215,7 @@ export default {
   margin: 10px 0 20px 0;
 }
 
-.items ::v-deep(.el-card) > .el-card__body {
+.items >>> .el-card > .el-card__body {
   padding: 12px 25px 8px 25px;
 }
 
@@ -261,7 +256,7 @@ export default {
   font-size: 14px;
 }
 
-.tip ::v-deep(.el-tag) {
+.tip >>> .el-tag {
   height: 30px;
   line-height: 30px;
 }

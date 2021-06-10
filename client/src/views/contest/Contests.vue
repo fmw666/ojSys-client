@@ -204,7 +204,7 @@ export default {
 
       vertical-align: middle;
 }
-.items ::v-deep(.el-card) .el-card__body {
+.items >>> .el-card .el-card__body {
   position: relative;
 }
 .card-right {
