@@ -1,7 +1,7 @@
 <template>
   <div id="nav_bar">
-    <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-      <el-menu-item index="/"><img style="width: 50px" src="../../assets//ico.png" alt=""/></el-menu-item>
+    <el-menu :default-active="activeIndex" class="el-menu-nav" mode="horizontal" @select="handleSelect">
+      <el-menu-item index="/"><img style="width: 50px" src="../../assets/ico.png" alt=""/></el-menu-item>
       <el-menu-item index="/problems">刷题区</el-menu-item>
       <el-menu-item index="/contests">竞赛区</el-menu-item>
       <el-menu-item index="/forum">讨论区</el-menu-item>
@@ -21,7 +21,7 @@
             <el-menu-item index="/problem_list">查看题目</el-menu-item>
           </el-submenu>
         </div>
-        <el-divider style="margin: 0"></el-divider>
+<!--        <el-divider style="margin: 0"></el-divider>-->
         <el-menu-item index="/login" @click="logout()"><b>退出登录</b></el-menu-item>
       </el-submenu>
       <el-menu-item v-else index="/login">您还未登录，马上去登录</el-menu-item>
@@ -81,6 +81,9 @@ export default {
 }
 #nav_bar :hover {
 }
+.el-menu-nav {
+  background-color: whitesmoke;
+}
 #nav_bar >>> .el-menu--horizontal {
   border-radius: 8px;
   overflow: hidden;
@@ -97,5 +100,8 @@ export default {
 #nav_bar >>> .el-menu--horizontal > .el-submenu  .el-submenu__title{
   line-height: 72px;
   height: 72px;
+}
+.el-menu > .el-menu-item, #nav_bar >>> .el-submenu__title, .el-submenu > .el-submenu__title {
+  font-size: 15px !important;
 }
 </style>

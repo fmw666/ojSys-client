@@ -4,11 +4,11 @@ import router from "./router";
 import store from "./store";
 import axios from "axios";
 import hosts from "./store/hosts";
-import ElementUI from 'element-ui';
+import element from "./element";
 import 'element-ui/lib/theme-chalk/index.css';
 
 Vue.config.productionTip = false;
-Vue.use(ElementUI);
+Vue.use(element);
 
 Vue.prototype.$axios = axios;
 Vue.prototype.$host = hosts.host;

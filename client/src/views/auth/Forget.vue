@@ -228,25 +228,31 @@ export default {
           responseType: 'json'
         }). then(res => {
           console.log(res)
-          ElMessage.success('重置密码完成，马上去登录吧~');
+          this.message.success('重置密码完成，马上去登录吧~');
           this.step3 = '重置完成'
           this.active ++;
         })
       } else {
-        ElMessage.info('请检查您的输入');
+        this.message.info('请检查您的输入');
       }
     },
     next() {
       // 判断
       if (this.active === 0) {
         if (this.ways === '') {
-          ElMessage.error('请选择验证方式');
+          this.$message({
+            message: '请选择验证方式',
+            type: 'warning',
+          });
         }
         else if (this.ways === '1') {
           this.step1 = '已选手机'
           this.active ++;
         } else {
-          ElMessage.info('暂不支持其他验证方式');
+          this.$message({
+            message: '暂不支持其他验证方式',
+            type: 'warning'
+          });
         }
       }
     },
@@ -270,7 +276,13 @@ export default {
 .container {
   border-radius: 15px;
   background-clip: padding-box;
-  margin: 10% auto;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: max-content;
   width: 480px;
   padding: 35px 35px 15px 35px;
   background: #fff;
