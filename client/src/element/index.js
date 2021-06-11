@@ -1,6 +1,7 @@
 import {
     Message, Button, Menu, MenuItem, Form, FormItem, Steps, Step, Select, Option, Divider, Row, Col, Link,
-    Tag, Card, Pagination, Backtop, Tabs, TabPane, Dialog, Input, Alert, Checkbox, Submenu,
+    Tag, Card, Pagination, Backtop, Tabs, TabPane, Dialog, Input, Alert, Checkbox, Submenu, ButtonGroup,
+    Scrollbar, OptionGroup, Tooltip, Upload
 } from "element-ui";
 
 
@@ -51,6 +52,11 @@ const element = {
         Vue.use(Alert);
         Vue.use(Checkbox);
         Vue.use(Submenu);
+        Vue.use(ButtonGroup);
+        Vue.use(Scrollbar);
+        Vue.use(OptionGroup);
+        Vue.use(Tooltip);
+        Vue.use(Upload);
 
         Vue.component(Message);
         Vue.prototype.$message = $message;

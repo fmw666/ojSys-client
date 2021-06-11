@@ -31,6 +31,11 @@ export default {
           'linear-gradient(-225deg, #7DE2FC 0%, #B9B6E5 100%)',
           'linear-gradient(-225deg, #2CD8D5 0%, #C5C1FF 56%, #FFBAC3 100%)',
           'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+          'linear-gradient(to top, #ebc0fd 0%, #d9ded8 100%)',
+          'linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%)',
+          'linear-gradient(to top, #fddb92 0%, #d1fdff 100%)',
+          'linear-gradient(to top, #9890e3 0%, #b1f4cf 100%)',
+          'linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%)',
       ],
       val: ''
     }

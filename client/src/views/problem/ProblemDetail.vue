@@ -51,7 +51,12 @@
                     @changeLang="onChangeLang"></CodeMirror>
       </div>
       <div class="extra">
-        <el-button style="float: right" @click="execute" type="primary" icon="el-icon-edit">运行</el-button>
+        <el-button-group style="float: right" >
+          <el-button circle type="primary" icon="el-icon-refresh-right"></el-button>
+
+          <el-button type="primary" icon="el-icon-folder-opened">保存</el-button>
+          <el-button @click="execute" type="primary" icon="el-icon-edit">运行</el-button>
+        </el-button-group>
         <span style="line-height: 39px; width: 50px">
           <span class="status" style="font-size: 15px">运行结果：</span>
           <span class="status_code">
@@ -317,12 +322,12 @@ export default ({
   opacity: 1;
 }
 
-
 .description {
   display: inline-block;
-  width: 50%;
+  width: 46%;
   /*height: 500px;*/
   height: 70vh;
+  box-sizing: border-box;
 }
 
 .scrollbar {
@@ -330,6 +335,8 @@ export default ({
   -webkit-box-shadow:0 3px 3px #c3c3c3 inset;
   -moz-box-shadow:0 3px 3px #c3c3c3 inset;
   box-shadow:0 0 8px 2px #c3c3c3 inset;
+  height: 100%;
+
 }
 
 .header {
@@ -373,13 +380,14 @@ export default ({
 .text_input {
 
   display: inline-block;
-  width: 45%;
+  width: 50%;
   float: right;
-  height: 100%;
+  height: 70vh;
+  box-sizing: border-box;
 }
 
 .text_input > .code_text {
-  height: 69.4vh;
+  height: 100%;
   width: 100%;
 }
 

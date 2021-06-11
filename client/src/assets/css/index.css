@@ -195,18 +195,3 @@ body {
   right: 0;
   bottom: 0;
 }
-
-.el-row {
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-}
-
-.el-col {
-  border: 1px red solid;
-  height: 200px;
-}
-
-.el-col > div {
-  text-align: justify;
-}

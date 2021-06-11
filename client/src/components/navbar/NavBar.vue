@@ -102,6 +102,6 @@ export default {
   height: 72px;
 }
 .el-menu > .el-menu-item, #nav_bar >>> .el-submenu__title, .el-submenu > .el-submenu__title {
-  font-size: 15px !important;
+  font-size: 14px !important;
 }
 </style>

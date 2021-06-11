@@ -7,3 +7,11 @@ export function get_problems(data) {
         data: data
     })
 }
+
+export function downloadCode(data) {
+    return request({
+        url: 'problems?page_size' + Number.MAX_SAFE_INTEGER,
+        method: 'get',
+        data: data
+    })
+}
