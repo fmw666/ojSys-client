@@ -3,8 +3,10 @@
     <nav-bar></nav-bar>
 
     <transition :name="transitionName">
-      <router-view class="router-view">
-      </router-view>
+      <keep-alive>
+        <router-view class="router-view">
+        </router-view>
+      </keep-alive>
     </transition>
 
     <div class="tools">

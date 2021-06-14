@@ -190,9 +190,18 @@ export default {
 
     // 下载文件到本地
     downloadCode () {
-      const dataURL = `data:,` + this.value;
+      let isSupportDownload = 'download' in document.createElement('a');
+      if (isSupportDownload === false) {
+        this.$message({
+          'message': '当前浏览器不支持下载',
+          'type': 'warning'
+        });
+        return false;
+      }
 
+      const blob = new Blob([this.value]);
       let filename = '';
+
       let pid = this.$route.params && this.$route.params.id;
       filename += pid + '.';
       for(let i=0; i<this.languages.length; i++) {
@@ -203,8 +212,8 @@ export default {
       }
 
       const a = document.createElement('a');
-      a.setAttribute('href', dataURL);
-      a.setAttribute('download', filename);
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
       a.click();
     },
 
@@ -252,7 +261,7 @@ export default {
   },
   watch: {
     'theme' (newVal) {
-      this.editor.setOption('theme', newVal)
+      this.editor.setOption('theme', newVal);
     }
   }
 }
