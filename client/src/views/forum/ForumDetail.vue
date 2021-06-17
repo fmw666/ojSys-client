@@ -8,14 +8,14 @@
       </div>
       <div class="date_tip" style="margin-bottom: 30px">创建于：{{forumDetail['publish_date']}}</div>
 
-      <div class="content">{{forumDetail['content']}}</div>
+      <div class="forum-content">{{forumDetail['content']}}</div>
 
       <el-divider></el-divider>
 
       <div class="bottom">
         <div class="bottom_left">
           <div class="msg">作者</div>
-          <div class="content">
+          <div class="forum-content">
             <el-tag>
               <span v-if="forumDetail['author_is_admin'] === 'True'">管理员</span>
               <span v-if="forumDetail['author_is_p'] === 'True'">用户</span>
@@ -45,7 +45,6 @@
 
 <script>
 import {Base, Auth} from '../../components/mixins'
-import ElMessage from "element-ui";
 
 export default ({
   name: "ForumDetail",
@@ -123,7 +122,7 @@ export default ({
 
       // 登录了
       if (this.myself === true) {
-        ElMessage.warning('不允许给自己的帖子点赞哦~');
+        this.$message.warning('不允许给自己的帖子点赞哦~');
         return
       }
 
@@ -138,9 +137,9 @@ export default ({
         .then(response => {
           if (response.data['code'] === 1) {
             this.is_like = true
-            ElMessage.success('感谢您对这篇帖子的认可~');
+            this.$message.success('感谢您对这篇帖子的认可~');
           } else {
-            ElMessage.error('点赞失败，请刷新网页重试~');
+            this.$message.error('点赞失败，请刷新网页重试~');
           }
       });
 
@@ -158,9 +157,9 @@ export default ({
         .then(response => {
           if (response.data['code'] === 1) {
             this.is_like = false
-            ElMessage.info('您取消了点赞~');
+            this.$message.info('您取消了点赞~');
           } else {
-            ElMessage.error('点赞失败，请刷新网页重试~');
+            this.$message.error('点赞失败，请刷新网页重试~');
           }
       });
 
@@ -193,7 +192,7 @@ export default ({
   font-weight: bold;
   margin: 10px 0 12px 0;
 }
-.content {
+.forum-content {
   word-wrap:break-word;
 }
 

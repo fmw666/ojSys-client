@@ -34,7 +34,6 @@
 
 <script>
 import {Base, Auth} from '../../components/mixins'
-import ElMessage from "element-ui";
 
 export default {
   name: "login",
@@ -81,7 +80,7 @@ export default {
       }).then(response => {
         console.log(response.data)
         this.username = response.data.username
-        ElMessage.warning('请在退出登录后再访问')
+        this.$message.warning('请在退出登录后再访问')
         this.$router.push('/')
       }).catch(error => {
         console.log(error)
@@ -91,7 +90,7 @@ export default {
   methods: {
     submit() {
       if (this.error_username === false && this.error_password === false && this.username !== '' && this.password !== '') {
-        this.$axios.post(this.$host + "/api-token-auth/", {
+        this.$axios.post(this.$host + "/api/v1/api-token-auth/", {
           username: this.username,
           password: this.password
         }, {
@@ -121,14 +120,14 @@ export default {
           if (!return_url) {
             return_url = '/';
           }
-          location.href = return_url
+          location.href = return_url;
         })
         .catch(error => {
           console.log(error)
-          ElMessage.error('用户名/手机号 或 密码 有误');
+          this.$message.error('用户名/手机号 或 密码 有误');
         })
       } else {
-        ElMessage.error('请检查您的输入');
+        this.$message.error('请检查您的输入');
       }
     },
     // 重置表单

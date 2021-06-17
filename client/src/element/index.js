@@ -1,7 +1,7 @@
 import {
     Message, Button, Menu, MenuItem, Form, FormItem, Steps, Step, Select, Option, Divider, Row, Col, Link,
     Tag, Card, Pagination, Backtop, Tabs, TabPane, Dialog, Input, Alert, Checkbox, Submenu, ButtonGroup,
-    Scrollbar, OptionGroup, Tooltip, Upload
+    Scrollbar, OptionGroup, Tooltip, Upload, MessageBox
 } from "element-ui";
 
 
@@ -61,6 +61,7 @@ const element = {
         Vue.component(Message);
         Vue.prototype.$message = $message;
         Vue.prototype.$message.closeAll = Message.closeAll;
+        Vue.prototype.$confirm = MessageBox.confirm;
     }
 }
 

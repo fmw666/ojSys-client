@@ -15,7 +15,7 @@
   <!--                    <div class="watch">浏览次数：50</div>-->
                       <div class="watch">获赞次数：{{forum['like_cnt'].length}}</div>
                     </div>
-                    <div class="content">{{forum.content}}</div>
+                    <div class="forum-content">{{forum.content}}</div>
                     <el-divider style="margin: 18px 0 0 0"></el-divider>
                     <div class="tip">
                       发布于：<el-button type="text">{{forum['publish_date']}}</el-button>
@@ -241,7 +241,7 @@ export default {
   text-align: right;
 }
 
-.content {
+.forum-content {
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;

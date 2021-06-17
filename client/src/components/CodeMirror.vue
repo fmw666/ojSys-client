@@ -5,15 +5,7 @@
       <div class="tool-list">
         <el-button-group style="float: right;">
           <el-button @click="downloadCode" type="text" size="medium" round icon="el-icon-download">下载</el-button>
-
-<!--          <el-upload action="/"-->
-<!--              ref="upload"-->
-<!--              accept=".txt"-->
-<!--              :before-upload="beforeUpload"-->
-<!--              :disabled="this.fileList.length !== 0"-->
-<!--              :default-file-list="this.fileList">-->
-            <el-button type="text" size="medium" round>上传<i class="el-icon-upload el-icon--right"></i></el-button>
-<!--          </el-upload>-->
+          <el-button @click="uploadCode" type="text" size="medium" round>上传<i class="el-icon-upload el-icon--right"></i></el-button>
         </el-button-group>
         <el-button-group>
           <el-button v-if="is_collect" @click="is_collect = ~is_collect" type="text" size="medium" round icon="el-icon-star-off">收藏</el-button>
@@ -215,6 +207,11 @@ export default {
       a.href = URL.createObjectURL(blob);
       a.download = filename;
       a.click();
+    },
+
+    // 上传 code
+    uploadCode() {
+
     },
 
     // 通过 微信 分享代码

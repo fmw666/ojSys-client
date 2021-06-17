@@ -66,7 +66,6 @@
 
 <script>
 import {Base} from '../../components/mixins'
-import ElMessage from "element-ui";
 
 export default {
   mixins: [Base],
@@ -131,7 +130,7 @@ export default {
         this.error_phone = false;
       } else {
         this.error_phone_message = '您输入的手机号格式不正确';
-        ElMessage.error(this.error_phone_message);
+        this.$message.error(this.error_phone_message);
         this.error_phone = true;
       }
       if (this.error_phone === false) {
@@ -141,7 +140,7 @@ export default {
           .then(response => {
             if (response.data.count === 0) {
               this.error_phone_message = '手机号不存在';
-              ElMessage.error(this.error_phone_message);
+              this.$message.error(this.error_phone_message);
               this.error_phone = true;
               this.not_exist = true;
             } else {
@@ -171,7 +170,7 @@ export default {
       }).then(res => {
         console.log(res)
         // 发送成功
-        ElMessage.success("发送成功");
+        this.$message.success("发送成功");
         // 倒计时 60s，允许 60s 后用户可以再次点击获取验证码按钮
         let num = 60;
         this.btn_disabled = true;
@@ -195,7 +194,7 @@ export default {
     // 验证验证码
     verify () {
       if (this.sms_code.length !== 6) {
-        ElMessage.error('请输入正确格式的验证码');
+        this.$message.error('请输入正确格式的验证码');
         return;
       }
       if (this.error_phone === false) {
@@ -206,15 +205,15 @@ export default {
           responseType: 'json'
         }). then(response => {
           if (response.data['code'] === 1) {
-            ElMessage.success('验证成功，请重置您的密码');
+            this.$message.success('验证成功，请重置您的密码');
             this.step2 = '验证成功'
             this.active ++;
           } else {
-            ElMessage.error('验证码错误');
+            this.$message.error('验证码错误');
           }
         })
       } else {
-        ElMessage.error('请检查您的手机号');
+        this.$message.error('请检查您的手机号');
       }
     },
     // 重置密码
@@ -228,12 +227,12 @@ export default {
           responseType: 'json'
         }). then(res => {
           console.log(res)
-          this.message.success('重置密码完成，马上去登录吧~');
+          this.$message.success('重置密码完成，马上去登录吧~');
           this.step3 = '重置完成'
           this.active ++;
         })
       } else {
-        this.message.info('请检查您的输入');
+        this.$message.info('请检查您的输入');
       }
     },
     next() {

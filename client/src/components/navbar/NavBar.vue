@@ -45,15 +45,23 @@ export default {
   },
   created() {
     // 判断用户登录状态
-    this.login()
+    this.login();
+    this.activeIndex = '/' + this.$route.path.split('/')[1];
+
+  },
+  mounted() {
+    // 固定页面不显示 navbar
+    if (this.$route.path === '/login' || this.$route.path ==='/register' || this.$route.path === '/sregister' || this.$route.path==='/forget') {
+      document.querySelector("#nav_bar").style.display = "none";
+    }
   },
   watch: {
     $route(to) {
       // 对路由变化作出响应..
-      if (to.path === "/login" || this.$route.path === '/login' || this.$route.path ==='/register' || this.$route.path === '/sregister' || this.$route.path==='/forget'){
+      if (to.path === '/login' || this.$route.path === '/login' || this.$route.path ==='/register' || this.$route.path === '/sregister' || this.$route.path==='/forget'){
         document.querySelector("#nav_bar").style.display = "none";
       } else {
-        this.activeIndex = this.$route.path
+        this.activeIndex = '/' + this.$route.path.split('/')[1];
         document.querySelector("#nav_bar").style.display = "block";
       }
     },
