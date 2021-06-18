@@ -111,19 +111,19 @@ export default {
           'Authorization': 'JWT ' + this.token
         },
         responseType: 'json'
-      }).then(response => {
+      }).then(res => {
         // 加载用户数据
-        this.user_id = response.data.id;
-        this.username = response.data.username;
-        this.mobile = response.data.mobile;
-        this.email = response.data.email;
-        this.email_active = response.data.email_active;
+        this.user_id = res.data.id;
+        this.username = res.data.username;
+        this.mobile = res.data.mobile;
+        this.email = res.data.email;
+        this.email_active = res.data.email_active;
 
         this.ruleForm.username = this.username
         this.ruleForm.phone = this.mobile
         this.ruleForm.email = this.email
-      }).catch(error => {
-        if (error.response.status===401 || error.response.status===403) {
+      }).catch(err => {
+        if (err.response.status===401 || err.response.status===403) {
           location.href = '/login?next=/account';
         }
       });

@@ -208,8 +208,6 @@
 <script>
 import {Base, Auth} from '../../components/mixins'
 
-import ElMessage from "element-ui";
-
 export default ({
   name: "ContestDetail",
   mixins: [Base, Auth],
@@ -318,7 +316,7 @@ export default ({
             // 等待中
           } else if (response.data['is_wait']) {
             this.status = 4
-            ElMessage.warning('比赛未开始，等待中')
+            this.$message.warning('比赛未开始，等待中')
             this.to_path('/contests')
           }
 
@@ -390,7 +388,7 @@ export default ({
                 }
                 console.log(this.end_rankings_table)
               } else {
-                ElMessage.error('获取比赛排名情况失败！请检查您的地址是否正确')
+                this.$message.error('获取比赛排名情况失败！请检查您的地址是否正确')
               }
             })
             return
@@ -403,7 +401,7 @@ export default ({
               this.$axios.get(this.$host + "/api/v1/cron/contests")
               clearInterval(timer)
               // 提示，然后刷新
-              ElMessage.info(message)
+              this.$message.info(message)
               if (this.status === 2) {
                 // 强制提交
                 this.commit()
@@ -415,7 +413,7 @@ export default ({
       }).catch(error => {
         console.log(error)
         // 肯定是没有比赛
-        ElMessage.error('没有该比赛，访问错误！')
+        this.$message.error('没有该比赛，访问错误！')
         this.to_path('/contests')
       });
 
@@ -489,7 +487,7 @@ export default ({
           }
           // 失败
           else {
-            ElMessage.error('失败，请刷新网页重试~');
+            this.$message.error('失败，请刷新网页重试~');
           }
       })
     },
@@ -523,17 +521,17 @@ export default ({
           }).then(response => {
             // 报名成功
             if (response.data['code'] === 1) {
-              ElMessage.success('报名成功，祝您有个好成绩！');
+              this.$message.success('报名成功，祝您有个好成绩！');
               this.signed = true
             }
             // 已报名
             else if (response.data['code'] === -1) {
-              ElMessage.info('报名成功，祝您有个好成绩！');
+              this.$message.info('报名成功，祝您有个好成绩！');
               this.signed = true
             }
             // 失败
             else {
-              ElMessage.error('报名失败，请刷新网页重试~');
+              this.$message.error('报名失败，请刷新网页重试~');
             }
         })
       } else if (option === 2) {
@@ -546,17 +544,17 @@ export default ({
           }).then(response => {
             // 取消报名成功
             if (response.data['code'] === 1) {
-              ElMessage.success('已取消报名！');
+              this.$message.success('已取消报名！');
               this.signed = false
             }
             // 已报名
             else if (response.data['code'] === -1) {
-              ElMessage.info('已取消报名！');
+              this.$message.info('已取消报名！');
               this.signed = false
             }
             // 失败
             else {
-              ElMessage.error('取消报名失败，请刷新网页重试~');
+              this.$message.error('取消报名失败，请刷新网页重试~');
             }
         })
       }
@@ -597,7 +595,7 @@ export default ({
     // 提交比赛
     commit() {
       if (this.identity !== '普通用户') {
-        ElMessage.warning('只有报名的普通用户才能提交哦~')
+        this.$message.warning('只有报名的普通用户才能提交哦~')
       }
       // 完成比赛时间
       this.finish_time = new Date()
@@ -619,7 +617,7 @@ export default ({
           responseType: 'json'
         }).then(response => {
           if (response.data['code'] === 1) {
-            ElMessage.success('提交成功，比赛结束后方可查看自己排名')
+            this.$message.success('提交成功，比赛结束后方可查看自己排名')
             this.$router.go(-1)
           }
       })

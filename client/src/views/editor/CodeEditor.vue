@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import CodeMirror from "../components/CodeMirror";
+import CodeMirror from "../../components/CodeMirror";
 
 export default {
   components: {

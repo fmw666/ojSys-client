@@ -1,7 +1,7 @@
 import {
     Message, Button, Menu, MenuItem, Form, FormItem, Steps, Step, Select, Option, Divider, Row, Col, Link,
     Tag, Card, Pagination, Backtop, Tabs, TabPane, Dialog, Input, Alert, Checkbox, Submenu, ButtonGroup,
-    Scrollbar, OptionGroup, Tooltip, Upload, MessageBox
+    Scrollbar, OptionGroup, Tooltip, Upload, MessageBox, Avatar, Icon
 } from "element-ui";
 
 
@@ -57,6 +57,8 @@ const element = {
         Vue.use(OptionGroup);
         Vue.use(Tooltip);
         Vue.use(Upload);
+        Vue.use(Avatar);
+        Vue.use(Icon);
 
         Vue.component(Message);
         Vue.prototype.$message = $message;

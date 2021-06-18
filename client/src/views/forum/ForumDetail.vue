@@ -17,9 +17,9 @@
           <div class="msg">作者</div>
           <div class="forum-content">
             <el-tag>
-              <span v-if="forumDetail['author_is_admin'] === 'True'">管理员</span>
-              <span v-if="forumDetail['author_is_p'] === 'True'">用户</span>
-              <span v-if="forumDetail['author_is_oc'] === 'True'">机构</span> — {{forumDetail['author_username']}}
+              <span v-if="forumDetail['author']['is_admin']">管理员</span>
+              <span v-if="forumDetail['author']['is_p']">用户</span>
+              <span v-if="forumDetail['author']['is_o']">机构</span> — {{forumDetail['author']['username']}}
             </el-tag>
           </div>
         </div>
@@ -80,20 +80,20 @@ export default ({
 
     init_data() {
       this.fid = this.$route.params && this.$route.params.id;
-      this.$axios.get(this.$host + "/api/v1/forums/" + this.fid, {
+      this.$axios.get(this.$host + "/api/v1/forum/" + this.fid, {
           responseType: 'json'
         })
-        .then(response => {
-          this.forumDetail = response.data
+        .then(res => {
+          this.forumDetail = res.data
           this.cnt = this.forumDetail['like_cnt'].length
           // 1. 检查文章是不是本人的
-          if (this.user_id.toString() === response.data['author'].toString()) {
+          if (this.user_id === res.data['author'].id) {
             this.myself = true
           }
           // 2. 如果不是本人的，那么自己点没点赞
-          const array = new Array(response.data['like_cnt'])
+          const array = new Array(res.data['like_cnt'])
           for (let i=0; i<array[0].length; i++) {
-            if (array[0][i].toString() === this.user_id.toString()) {
+            if (array[0][i].id === this.user_id) {
               this.is_like = true
               break
             }
@@ -112,10 +112,7 @@ export default ({
         }).then(() => {
           this.to_path('/login?next=/forum/' + this.fid)
         }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消登录'
-          });
+
         });
         return
       }
@@ -148,7 +145,7 @@ export default ({
     cancel_like() {
       // 这个不用登录验证了，因为 is_like 前已经做了
       this.fid = this.$route.params && this.$route.params.id;
-      this.$axios.post(this.$host + "/api/v1/forums/" + this.fid, {
+      this.$axios.post(this.$host + "/api/v1/forum/" + this.fid, {
           uid: this.user_id,
           option: 1
         }, {

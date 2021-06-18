@@ -1,44 +1,36 @@
-import VueRouter from 'vue-router'
-import Vue from "vue"
-Vue.use(VueRouter)
+import VueRouter from 'vue-router';
+import Vue from "vue";
+Vue.use(VueRouter);
 
-const originalPush = VueRouter.prototype.push
+const originalPush = VueRouter.prototype.push;
 
 VueRouter.prototype.push = function push(location) {
-  return originalPush.call(this, location).catch(err => err)
+  return originalPush.call(this, location).catch(err => err);
 }
 
-import Index from '../views/Index.vue'
-import Problems from '../views/problem/Problems.vue'
+import Index from '../views/Index.vue';
+import Problems from '../views/problem/Problems.vue';
 import ProblemDetail from "../views/problem/ProblemDetail.vue";
 import ProblemPost from "../views/problem/ProblemPost.vue";
 import ProblemList from "../views/problem/ProblemList.vue";
-import ContestDetail from "../views/contest/ContestDetail.vue"
-import Contests from '../views/contest/Contests.vue'
+import ContestDetail from "../views/contest/ContestDetail.vue";
+import Contests from '../views/contest/Contests.vue';
 import ContestPost from "../views/contest/ContestPost.vue";
 import ContestList from "../views/contest/ContestList.vue";
-import Forum from '../views/forum/Forum.vue'
-import ForumDetail from '../views/forum/ForumDetail.vue'
-import ForumPost from "../views/forum/ForumPost.vue"
-import Login from "../views/auth/Login.vue"
-import Register from "../views/auth/Register.vue"
+import Forum from '../views/forum/Forum.vue';
+import ForumDetail from '../views/forum/ForumDetail.vue';
+import ForumPost from "../views/forum/ForumPost.vue";
+import Login from "../views/auth/Login.vue";
+import Register from "../views/auth/Register.vue";
 import SRegister from "../views/auth/SRegister.vue";
-import Account from "../views/account/Account.vue"
-import VerifyEmail from "../views/auth/VerifyEmail.vue"
-import Forget from "../views/auth/Forget.vue"
-
-import Test from '../views/test.vue'
+import Account from "../views/account/Account.vue";
+import VerifyEmail from "../views/auth/VerifyEmail.vue";
+import Forget from "../views/auth/Forget.vue";
+import CodeEditor from '../views/editor/CodeEditor.vue';
+import MarkdownEditor from "../views/editor/MarkdownEditor.vue";
 
 
 const routes = [
-  {
-    path: '/test',
-    name: 'Test',
-    meta: {
-      index: 0
-    },
-    component: Test
-  },
   {
     path: '/',
     name: 'Index',
@@ -184,6 +176,22 @@ const routes = [
     component: ProblemList
   },
   {
+    path: '/editor/code',
+    name: 'CodeEditor',
+    meta: {
+      index: 19
+    },
+    component: CodeEditor
+  },
+  {
+    path: '/editor/markdown',
+    name: 'MarkdownEditor',
+    meta: {
+      index: 20
+    },
+    component: MarkdownEditor
+  },
+  {
     path: "/:catchAll(.*)",
     name: "/404",
     component: () => import('../views/404.vue')
@@ -193,6 +201,6 @@ const routes = [
 const router = new VueRouter({
   mode: 'history',
   routes
-})
+});
 
-export default router
+export default router;

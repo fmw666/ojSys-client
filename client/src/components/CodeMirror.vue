@@ -1,5 +1,5 @@
 <template>
-  <div style="margin: 0 0 15px 0">
+  <div style="margin: 0 0 15px 0" id="CodeMirror">
 
     <el-card class="tool-top">
       <div class="tool-list">
@@ -280,10 +280,10 @@ export default {
 </style>
 
 <style>
-  .CodeMirror {
+  #CodeMirror .CodeMirror {
     height: 55.0vh !important;
   }
-  .CodeMirror-scroll {
+  #CodeMirror .CodeMirror-scroll {
     min-height: 300px;
     max-height: 1000px;
   }

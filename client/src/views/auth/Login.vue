@@ -5,7 +5,8 @@
 
       <el-form-item label="用户名/手机号" prop="username">
         <el-input type="text" v-model="username" autocomplete="off"></el-input>
-        <el-alert v-show="error_username" title="请输入3-20个字符的用户名" type="warning" ></el-alert>
+<!--        <el-alert v-show="error_username" title="请输入3-20个字符的用户名" type="warning" ></el-alert>-->
+        <el-alert v-show="true" title="请输入3-20个字符的用户名" type="warning" ></el-alert>
       </el-form-item>
 
       <el-form-item label="密码" prop="pass">
@@ -177,5 +178,18 @@ export default {
     vertical-align: middle;
     height: 25px;
     line-height: 25px;
+  }
+
+  #login .el-alert {
+    padding: 0 0 0 10px;
+    font-size: 1px;
+  }
+
+  #login >>> .el-alert__title {
+    font-size: 12px;
+  }
+
+  #login >>> .el-form-item {
+    margin-bottom: 10px;
   }
 </style>

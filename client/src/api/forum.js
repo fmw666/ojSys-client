@@ -9,7 +9,7 @@ export function get_my_forums() {
 
 export function get_forums(params) {
     return request({
-        url: 'forums',
+        url: 'forum',
         method: 'get',
         params: params
     })

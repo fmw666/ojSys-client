@@ -6,6 +6,12 @@
       <el-menu-item index="/contests">竞赛区</el-menu-item>
       <el-menu-item index="/forum">讨论区</el-menu-item>
 
+      <el-submenu class="sub_menu" index="/editor">
+        <template #title>编辑器</template>
+        <el-menu-item index="/editor/code">Code Editor</el-menu-item>
+        <el-menu-item index="/editor/markdown">Markdown Editor</el-menu-item>
+      </el-submenu>
+
       <el-submenu v-if="login_flag" class="sub_menu" index="/account">
         <template #title>您好，{{username}}</template>
         <el-menu-item index="/account">个人中心</el-menu-item>
@@ -47,7 +53,7 @@ export default {
     // 判断用户登录状态
     this.login();
     this.activeIndex = '/' + this.$route.path.split('/')[1];
-
+    console.log(this.activeIndex)
   },
   mounted() {
     // 固定页面不显示 navbar
@@ -62,6 +68,7 @@ export default {
         document.querySelector("#nav_bar").style.display = "none";
       } else {
         this.activeIndex = '/' + this.$route.path.split('/')[1];
+        console.log(this.activeIndex)
         document.querySelector("#nav_bar").style.display = "block";
       }
     },

@@ -146,7 +146,7 @@ export default {
     // 点击页数，切换到相应页
     handleCurrentChange(val) {
       this.page = val;
-      this.get_forums();
+      this.getForumPostList();
     },
     // tab 切换事件
     handleClick() {
@@ -158,11 +158,11 @@ export default {
       } else {
         this.ordering = '-publish_date'
       }
-      this.get_forums()
+      this.getForumPostList()
     },
 
     // 获取数据
-    get_forums() {
+    getForumPostList() {
       let params = {
         page: this.page,
         page_size: this.page_size,
@@ -188,7 +188,7 @@ export default {
     }
   },
   mounted() {
-    this.get_forums()
+    this.getForumPostList()
     this.login()
     this.get_my_forums()
   }

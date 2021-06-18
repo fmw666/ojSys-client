@@ -43,7 +43,6 @@
 
 <script>
 import {Base, Auth} from '../../components/mixins'
-import ElMessage from "element-ui";
 
 export default {
   name: "ForumPost",
@@ -78,7 +77,8 @@ export default {
       }
 
       // 登录了
-      this.$axios.post(this.$host + "/api/v1/forums/post/" + this.user_id, {
+      this.$axios.post(this.$host + "/api/v1/forum/", {
+          user_id: this.user_id,
           title: this.title,
           content: this.content
         }, {
@@ -86,10 +86,10 @@ export default {
         })
         .then(response => {
           if (response.data['code'] === 1) {
-            ElMessage.success('发布成功！已为您跳转到您的帖子');
+            this.$message.success('发布成功！已为您跳转到您的帖子');
             this.to_path('/forum/' + response.data['fid'])
           } else {
-            ElMessage.error('发布失败，请刷新网页重试~');
+            this.$message.error('发布失败，请刷新网页重试~');
           }
       });
     },
