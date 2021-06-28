@@ -53,7 +53,6 @@ export default {
     // 判断用户登录状态
     this.login();
     this.activeIndex = '/' + this.$route.path.split('/')[1];
-    console.log(this.activeIndex)
   },
   mounted() {
     // 固定页面不显示 navbar

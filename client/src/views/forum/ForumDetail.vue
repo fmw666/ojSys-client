@@ -17,9 +17,9 @@
           <div class="msg">作者</div>
           <div class="forum-content">
             <el-tag>
-              <span v-if="forumDetail['author']['is_admin']">管理员</span>
-              <span v-if="forumDetail['author']['is_p']">用户</span>
-              <span v-if="forumDetail['author']['is_o']">机构</span> — {{forumDetail['author']['username']}}
+              <span v-if="forumDetail['author_is_admin']">管理员</span>
+              <span v-if="forumDetail['author_is_p']">用户</span>
+              <span v-if="forumDetail['author_is_o']">机构</span> — {{forumDetail['author_username']}}
             </el-tag>
           </div>
         </div>
@@ -84,18 +84,19 @@ export default ({
           responseType: 'json'
         })
         .then(res => {
-          this.forumDetail = res.data
-          this.cnt = this.forumDetail['like_cnt'].length
+          this.forumDetail = res.data;
+          console.log(this.forumDetail);
+          this.cnt = this.forumDetail['like_cnt'].length;
           // 1. 检查文章是不是本人的
-          if (this.user_id === res.data['author'].id) {
-            this.myself = true
+          if (this.user_id === res.data['author_id']) {
+            this.myself = true;
           }
           // 2. 如果不是本人的，那么自己点没点赞
-          const array = new Array(res.data['like_cnt'])
+          const array = new Array(res.data['like_cnt']);
           for (let i=0; i<array[0].length; i++) {
             if (array[0][i].id === this.user_id) {
-              this.is_like = true
-              break
+              this.is_like = true;
+              break;
             }
           }
       });

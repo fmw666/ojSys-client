@@ -21,46 +21,49 @@
               <el-card v-for="contest in contests"
                        :key="contest.id"
                        class="items" shadow="always">
-                <div class="card-left" @click="to_path_with_tips(tp.name, contest.id)">
-                  <h4 class="header">{{contest.name}}</h4>
-                  <span class="holder">——主办方：{{contest['author_username']}}</span>
-                  <div class="tips">
-                    <div class="tip">正式比赛时间：</div>
-                    <el-tag>{{contest['contest_start_date']}}</el-tag>
-                    <span class="divider-line">--</span>
-                    <el-tag>{{contest['contest_end_date']}}</el-tag>
-                  </div>
-                </div>
+                <el-row :gutter="20">
+                  <el-col :span="12" @click="to_path_with_tips(tp.name, contest.id)">
+                    <h4 class="header">{{contest.name}}</h4>
+                    <span class="holder">——主办方：{{contest['author_username']}}</span>
+                    <div class="tips">
+                      <div class="tip">正式比赛时间：</div>
+                      <el-tag>{{contest['contest_start_date']}}</el-tag>
+                      <span class="divider-line">--</span>
+                      <el-tag>{{contest['contest_end_date']}}</el-tag>
+                    </div>
+                  </el-col>
 
-                <el-dialog
-                  title="温馨提示"
-                  v-model="centerDialogVisible"
-                  width="30%"
-                  center>
-                  <span style="font-weight: bold; font-size: 15px; color: #ed3f14">在进入比赛前，我们要确保您了解以下情况：</span>
-                  <ol>
-                    <li>点击确定后进入比赛，系统会为您自动开始计时，点击 <b>提交比赛</b> 后结束计时。</li>
-                    <li>请勿中途 <b>退出</b> 或 <b>刷新</b> 页面。（系统完善中，咱还不支持保存您提交的代码）</li>
-                  </ol>
-                  <template #footer>
-                    <span class="dialog-footer">
-                      <el-button @click="centerDialogVisible = false">取 消</el-button>
-                      <el-button type="primary" @click="to_path('/contests/' + contest.id)">确 定</el-button>
-                    </span>
-                  </template>
-                </el-dialog>
+                  <el-dialog
+                    title="温馨提示"
+                    v-model="centerDialogVisible"
+                    width="30%"
+                    center>
+                    <span style="font-weight: bold; font-size: 15px; color: #ed3f14">在进入比赛前，我们要确保您了解以下情况：</span>
+                    <ol>
+                      <li>点击确定后进入比赛，系统会为您自动开始计时，点击 <b>提交比赛</b> 后结束计时。</li>
+                      <li>请勿中途 <b>退出</b> 或 <b>刷新</b> 页面。（系统完善中，咱还不支持保存您提交的代码）</li>
+                    </ol>
+                    <template #footer>
+                      <span class="dialog-footer">
+                        <el-button @click="centerDialogVisible = false">取 消</el-button>
+                        <el-button type="primary" @click="to_path('/contests/' + contest.id)">确 定</el-button>
+                      </span>
+                    </template>
+                  </el-dialog>
 
-                <el-divider direction="vertical" style="height: 30px"></el-divider>
+                  <el-col :span="4">
+                    <el-divider direction="vertical"></el-divider>
+                  </el-col>
 
-                <div class="card-right">
-                  <span class="tip">报名开始时间：</span>
-                  <el-button type="text" style="padding: 5px">{{contest['sign_up_start_date']}}</el-button>
-                  <span class="tip">报名截至时间：</span>
-                  <el-button type="text" style="padding: 5px">{{contest['sign_up_end_date']}}</el-button>
+                  <el-col :span="8">
+                    <span class="tip">报名开始时间：</span>
+                    <el-button type="text" style="padding: 5px">{{contest['sign_up_start_date']}}</el-button>
+                    <span class="tip">报名截至时间：</span>
+                    <el-button type="text" style="padding: 5px">{{contest['sign_up_end_date']}}</el-button>
 
-                  <span v-if="activeName === 'sign'" class="tip" style="margin-top: 7px">当前报名人数：3</span>
-                </div>
-
+                    <span v-if="activeName === 'sign'" class="tip" style="margin-top: 7px">当前报名人数：3</span>
+                  </el-col>
+                </el-row>
               </el-card>
             </transition-group>
 

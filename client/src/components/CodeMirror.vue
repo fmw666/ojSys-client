@@ -74,6 +74,7 @@ import 'codemirror/theme/nord.css';
 // mode
 import 'codemirror/mode/clike/clike.js';
 import 'codemirror/mode/python/python.js';
+import 'codemirror/mode/javascript/javascript'
 // active-line.js
 import 'codemirror/addon/selection/active-line.js';
 // foldGutter
@@ -81,6 +82,15 @@ import 'codemirror/addon/fold/foldgutter.css';
 import 'codemirror/addon/fold/foldgutter.js';
 import 'codemirror/addon/fold/brace-fold.js';
 import 'codemirror/addon/fold/indent-fold.js';
+// hint
+import 'codemirror/addon/hint/show-hint'
+import 'codemirror/addon/hint/javascript-hint'
+import 'codemirror/addon/hint/sql-hint'
+import 'codemirror/addon/hint/html-hint'
+import 'codemirror/addon/hint/xml-hint'
+import 'codemirror/addon/hint/anyword-hint'
+import 'codemirror/addon/hint/css-hint'
+import 'codemirror/addon/hint/show-hint'
 
 export default {
   name: "CodeMirror",
@@ -121,16 +131,19 @@ export default {
         styleActiveLine: true,
         // 括号匹配
         matchBrackets: true,
+        fullscreen: true,
       },
       mode: {
         'C': 'text/x-csrc',
         'C++': 'text/x-csrc',
-        'Python3': 'python'
+        'Python3': 'python',
+        'JavaScript': 'javascript'
       },
       languages: [
         {'label': 'C', 'suffix': 'c'},
         {'label': 'C++', 'suffix': 'cpp'},
-        {'label': 'Python3', 'suffix': 'py'}
+        {'label': 'Python3', 'suffix': 'py'},
+        {'label': 'JavaScript', 'suffix': 'js'}
       ],
 
       themes: [{
@@ -158,12 +171,24 @@ export default {
     }
   },
   mounted() {
-    this.editor.focus()
+    const extraKeys = {
+      'Ctrl-Space': 'autocomplete',
+      'Ctrl-F7': function () {
+        alert('绑定了Ctrl-F7');
+      },
+      'Ctrl-Enter': function (cm) {
+        alert('xx');
+        cm.setOption('fullScreen', !cm.getOption('fullScreen'));
+      }
+    };
+    this.editor.setOption('extraKeys', extraKeys);
+
+    this.editor.focus();
   },
   computed: {
     editor () {
       // get current editor object
-      return this.$refs.myEditor.editor
+      return this.$refs.myEditor.editor;
     }
   },
   methods: {

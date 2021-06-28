@@ -23,7 +23,7 @@ export default {
       if (r != null) {
         return decodeURI(r[2]).replace('%2F', '/');
       }
-      return null
+      return null;
     },
 
 
@@ -32,20 +32,20 @@ export default {
       this.$axios.get(this.$host + "/api/v1/problems/", {
         responseType: 'json'
       }).then(res => {
-        this.total_problem_cnt = res.data.count
+        this.total_problem_cnt = res.data.count;
       }).catch(error => {
-        console.log(error.response.data)
-      })
+        console.log(error.response.data);
+      });
     },
     // 获取 contest cnt
     get_contest_cnt() {
       this.$axios.get(this.$host + "/api/v1/contests/", {
         responseType: 'json'
       }).then(response => {
-        this.total_contest_cnt = response.data.count
+        this.total_contest_cnt = response.data.count;
       }).catch(error => {
-        console.log(error.response.data)
-      })
+        console.log(error.response.data);
+      });
     }
   }
 
