@@ -122,8 +122,8 @@
 </template>
 
 <script>
-import {Base, Auth} from '../../components/mixins';
-import ElMessage from "element-ui";
+import {Base, Auth} from '../../components/mixins'
+import {ElMessage} from "element-plus";
 export default {
   name: "ProblemPost",
   mixins: [Base, Auth],

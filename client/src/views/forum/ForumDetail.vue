@@ -8,14 +8,14 @@
       </div>
       <div class="date_tip" style="margin-bottom: 30px">创建于：{{forumDetail['publish_date']}}</div>
 
-      <div class="forum-content">{{forumDetail['content']}}</div>
+      <div class="content">{{forumDetail['content']}}</div>
 
       <el-divider></el-divider>
 
       <div class="bottom">
         <div class="bottom_left">
           <div class="msg">作者</div>
-          <div class="forum-content">
+          <div class="content">
             <el-tag>
               <span v-if="forumDetail['author_is_admin'] === 'True'">管理员</span>
               <span v-if="forumDetail['author_is_p'] === 'True'">用户</span>
@@ -45,8 +45,10 @@
 
 <script>
 import {Base, Auth} from '../../components/mixins'
+import {defineComponent} from 'vue'
+import {ElMessage} from "element-plus";
 
-export default ({
+export default defineComponent({
   name: "ForumDetail",
   mixins: [Base, Auth],
   data() {
@@ -64,7 +66,7 @@ export default ({
   },
   watch: {
     is_like: {
-      handler() {
+      handler(old_val, new_val) {
         this.init_data()
       }
     }
@@ -122,7 +124,7 @@ export default ({
 
       // 登录了
       if (this.myself === true) {
-        this.$message.warning('不允许给自己的帖子点赞哦~');
+        ElMessage.warning('不允许给自己的帖子点赞哦~');
         return
       }
 
@@ -137,9 +139,9 @@ export default ({
         .then(response => {
           if (response.data['code'] === 1) {
             this.is_like = true
-            this.$message.success('感谢您对这篇帖子的认可~');
+            ElMessage.success('感谢您对这篇帖子的认可~');
           } else {
-            this.$message.error('点赞失败，请刷新网页重试~');
+            ElMessage.error('点赞失败，请刷新网页重试~');
           }
       });
 
@@ -157,9 +159,9 @@ export default ({
         .then(response => {
           if (response.data['code'] === 1) {
             this.is_like = false
-            this.$message.info('您取消了点赞~');
+            ElMessage.info('您取消了点赞~');
           } else {
-            this.$message.error('点赞失败，请刷新网页重试~');
+            ElMessage.error('点赞失败，请刷新网页重试~');
           }
       });
 
@@ -171,7 +173,7 @@ export default ({
 
 <style scoped>
 
-.container >>> .el-card {
+.container ::v-deep(.el-card) {
   padding: 10px 20px;
 }
 .header {
@@ -192,7 +194,7 @@ export default ({
   font-weight: bold;
   margin: 10px 0 12px 0;
 }
-.forum-content {
+.content {
   word-wrap:break-word;
 }
 

@@ -67,6 +67,7 @@
 <script>
 import {Base} from '../../components/mixins'
 
+import {ElMessage} from "element-plus";
 export default {
   mixins: [Base],
   name: "Forget",
@@ -100,13 +101,13 @@ export default {
   },
   watch: {
     ways: {
-      handler() {
+      handler(old_val, new_val) {
         this.is_choose = this.ways === ''
       }
     },
     // 检查密码
     password: {
-      handler() {
+      handler(old_val, new_val) {
         const len = this.password.length;
         if (len > 0) {
           this.error_password = len < 8 || len > 20;
@@ -117,7 +118,7 @@ export default {
     },
     // 检查确认密码
     password2: {
-      handler() {
+      handler(old_val, new_val) {
         this.error_check_password = this.password !== this.password2;
       }
     },
@@ -130,7 +131,7 @@ export default {
         this.error_phone = false;
       } else {
         this.error_phone_message = '您输入的手机号格式不正确';
-        this.$message.error(this.error_phone_message);
+        ElMessage.error(this.error_phone_message);
         this.error_phone = true;
       }
       if (this.error_phone === false) {
@@ -140,7 +141,7 @@ export default {
           .then(response => {
             if (response.data.count === 0) {
               this.error_phone_message = '手机号不存在';
-              this.$message.error(this.error_phone_message);
+              ElMessage.error(this.error_phone_message);
               this.error_phone = true;
               this.not_exist = true;
             } else {
@@ -167,10 +168,9 @@ export default {
       // 向后端发送请求
       this.$axios.get(this.$host + '/api/v1' + '/sms_codes/' + this.mobile + '/', {
         responseType: 'json'
-      }).then(res => {
-        console.log(res)
+      }).then(response => {
         // 发送成功
-        this.$message.success("发送成功");
+        ElMessage.success("发送成功");
         // 倒计时 60s，允许 60s 后用户可以再次点击获取验证码按钮
         let num = 60;
         this.btn_disabled = true;
@@ -187,14 +187,16 @@ export default {
         }, 1000, 60)
       })
       .catch(error => {
-        console.log(error)
+        if (error.response.status === 400) {
+
+        }
         this.sending_flag = false;
       })
     },
     // 验证验证码
     verify () {
       if (this.sms_code.length !== 6) {
-        this.$message.error('请输入正确格式的验证码');
+        ElMessage.error('请输入正确格式的验证码');
         return;
       }
       if (this.error_phone === false) {
@@ -205,15 +207,15 @@ export default {
           responseType: 'json'
         }). then(response => {
           if (response.data['code'] === 1) {
-            this.$message.success('验证成功，请重置您的密码');
+            ElMessage.success('验证成功，请重置您的密码');
             this.step2 = '验证成功'
             this.active ++;
           } else {
-            this.$message.error('验证码错误');
+            ElMessage.error('验证码错误');
           }
         })
       } else {
-        this.$message.error('请检查您的手机号');
+        ElMessage.error('请检查您的手机号');
       }
     },
     // 重置密码
@@ -225,33 +227,26 @@ export default {
           password: this.password
         }, {
           responseType: 'json'
-        }). then(res => {
-          console.log(res)
-          this.$message.success('重置密码完成，马上去登录吧~');
+        }). then(response => {
+          ElMessage.success('重置密码完成，马上去登录吧~');
           this.step3 = '重置完成'
           this.active ++;
         })
       } else {
-        this.$message.info('请检查您的输入');
+        ElMessage.info('请检查您的输入');
       }
     },
     next() {
       // 判断
       if (this.active === 0) {
         if (this.ways === '') {
-          this.$message({
-            message: '请选择验证方式',
-            type: 'warning',
-          });
+          ElMessage.error('请选择验证方式');
         }
         else if (this.ways === '1') {
           this.step1 = '已选手机'
           this.active ++;
         } else {
-          this.$message({
-            message: '暂不支持其他验证方式',
-            type: 'warning'
-          });
+          ElMessage.info('暂不支持其他验证方式');
         }
       }
     },
@@ -275,13 +270,7 @@ export default {
 .container {
   border-radius: 15px;
   background-clip: padding-box;
-  margin: auto;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: max-content;
+  margin: 10% auto;
   width: 480px;
   padding: 35px 35px 15px 35px;
   background: #fff;

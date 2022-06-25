@@ -83,7 +83,7 @@ export default {
   mounted() {
     // 判断用户登录状态
     if (this.user_id && this.token) {
-      this.$axios.get(this.host + "/api/v1/user/", {
+      this.$axios.get(this.$host + "/api/v1/user/", {
       // 向后端传递 JWT token 的方法
       headers: {
         'Authorization': 'JWT ' + this.token
@@ -100,7 +100,7 @@ export default {
         // this.contest_cnt = 1
         // this.total_contest_cnt = 2
       }).catch(error => {
-        console.log(error)
+
       });
     } else {
       this.login_flag = false
@@ -121,4 +121,36 @@ export default {
 <style scoped>
 @import "../assets/css/index.css";
 
+.index {
+  height: 100vh;
+}
+.el-main {
+  border: 1px black solid;
+  text-align: center; /*让div内部文字居中*/
+  background-color: #fff;
+  border-radius: 20px;
+  width: 80%;
+  height: 400px;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.el-row {
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.el-col {
+  border: 1px red solid;
+  height: 200px;
+}
+
+.el-col > div {
+  text-align: justify;
+}
 </style>

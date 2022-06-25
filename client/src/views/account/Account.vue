@@ -105,7 +105,7 @@ export default {
   mounted() {
     // 判断用户登录状态
     if (this.user_id && this.token) {
-      this.axios.get(this.host + "/api/v1/user/", {
+      this.$axios.get(this.$host + "/api/v1/user/", {
         // 向后端传递 JWT token 的方法
         headers: {
           'Authorization': 'JWT ' + this.token
@@ -140,14 +140,14 @@ export default {
     },
     // 保存邮箱
     save_email() {
-      const re = /^[a-z0-9][\w.-]*@[a-z0-9-]+(\.[a-z]{2,5}){1,2}$/;
+      const re = /^[a-z0-9][\w\.\-]*@[a-z0-9\-]+(\.[a-z]{2,5}){1,2}$/;
       if (re.test(this.email)) {
         this.email_error = false;
       } else {
         this.email_error = true;
         return;
       }
-      this.axios.put(this.host + '/api/v1/email/', {
+      this.$axios.put(this.$host + '/api/v1/email/', {
         email: this.email
       }, {
         headers: {
@@ -155,8 +155,7 @@ export default {
         },
         responseType: 'json'
       })
-      .then(res => {
-        console.log(res)
+      .then(response => {
         this.set_email = false;
         this.send_email_btn_disabled = true;
         this.send_email_tip = '已发送验证邮箱'
@@ -198,5 +197,51 @@ export default {
 
 </script>
 
-<style scoped src="../../assets/css/account/account.css">
+<style scoped>
+
+.container .box-card {
+  position: relative;
+  box-shadow: rgba(0 0 0 0.17) 13px 15px 13px 2px;
+}
+.container .box-card ::v-deep(.el-form) .el-input .el-input__inner {
+  width: 30%;
+}
+.container .box-card .isSubmit {
+  width: 150px;
+  margin: 60px auto 0;
+}
+.container .box-card .account_title {
+  display: flex;
+  padding-right: 50px;
+}
+.container .box-card .account_title .account_title_text {
+  flex: 1;
+  line-height: 42px;
+}
+.container .box-card .account_title .el-link {
+  width: 100px;
+}
+
+.email_tip_btn {
+  margin-left: 15px;
+  display: inline-block;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #dcdfe6;
+  color: #606266;
+  -webkit-appearance: none;
+  text-align: center;
+  box-sizing: border-box;
+  outline: none;
+  transition: .1s;
+  font-weight: 500;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  padding: 10px 18px;
+  font-size: 14px;
+  border-radius: 4px;
+}
 </style>

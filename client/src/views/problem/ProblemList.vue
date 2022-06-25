@@ -15,7 +15,7 @@
         </el-row>
         <el-divider style="margin: 10px 0 10px 0"></el-divider>
 
-        <el-row v-for="(contest, index) in contests" :gutter="20" :key="index">
+        <el-row v-for="(contest, index) in contests" :gutter="20">
           <el-col :span="2">{{index + 1}}</el-col>
           <el-col :span="6">{{contest['name']}}</el-col>
           <el-col :span="4">

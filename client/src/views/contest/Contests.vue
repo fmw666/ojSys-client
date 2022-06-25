@@ -14,14 +14,15 @@
           <el-tab-pane v-for="tp in tabPanes"
                        :label="tp.label"
                        :name="tp.name"
-                       :key="tp.name"
+                       :key="tp"
                        :disabled="tp.disable">
 
             <transition-group>
               <el-card v-for="contest in contests"
                        :key="contest.id"
+                       @click="to_path_with_tips(tp.name, contest.id)"
                        class="items" shadow="always">
-                <div class="card-left" @click="to_path_with_tips(tp.name, contest.id)">
+                <div class="card-left">
                   <h4 class="header">{{contest.name}}</h4>
                   <span class="holder">——主办方：{{contest['author_username']}}</span>
                   <div class="tips">
@@ -92,6 +93,7 @@
 
 <script>
 import {Base, Auth} from '../../components/mixins'
+import {ElMessage} from "element-plus";
 export default {
   mixins: [Base, Auth],
   data() {
@@ -204,7 +206,7 @@ export default {
 
       vertical-align: middle;
 }
-.items >>> .el-card .el-card__body {
+.items ::v-deep(.el-card) .el-card__body {
   position: relative;
 }
 .card-right {

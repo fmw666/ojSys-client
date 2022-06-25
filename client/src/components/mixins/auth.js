@@ -77,7 +77,7 @@ export default {
 
           this.store_in_session()
         }).catch(error => {
-          console.log(error)
+
         });
       } else {
         this.login_flag = false

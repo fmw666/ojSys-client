@@ -5,13 +5,32 @@
 
     <el-card>
 
-      <CodeMirror :value.sync="code"
-                    :languages="problem.languages"
-                    :language="language"
-                    :theme="theme"
-                    @resetCode="onResetToTemplate"
-                    @changeTheme="onChangeTheme"
-                    @changeLang="onChangeLang"></CodeMirror>
+<!--      <span>Language</span>-->
+<!--      <el-select class="adjust" v-model="language" @change="onLangChange" placeholder="请选择">-->
+<!--        <el-option-->
+<!--          v-for="item in languages"-->
+<!--          :key="item"-->
+<!--          :label="item"-->
+<!--          :value="item">-->
+<!--        </el-option>-->
+<!--      </el-select>-->
+
+<!--      <el-button style="margin-left: 10px" @click="onResetClick" type="primary" icon="el-icon-refresh-right"></el-button>-->
+
+<!--      <span>Theme:</span>-->
+<!--      <el-select v-model="theme" @change="onThemeChange" placeholder="请选择">-->
+<!--        <el-option-->
+<!--          v-for="item in themes"-->
+<!--          :key="item.label"-->
+<!--          :label="item.label"-->
+<!--          :value="item.value">-->
+<!--        </el-option>-->
+<!--      </el-select>-->
+
+<!--    <codemirror :value="value" :options="options" @change="onEditorCodeChange" ref="myEditor">-->
+<!--    </codemirror>-->
+
+      <codemirror v-model="code" :options="cmOptions" />
 
     </el-card>
   </div>
@@ -20,71 +39,48 @@
 </template>
 
 <script>
-import CodeMirror from "../components/CodeMirror";
-
 export default {
   components: {
-    CodeMirror
-  },
-  props: {
-    value: {
-      type: String,
-      default: ''
-    },
-    mode: {
-      type: String,
-      default: 'text/x-csrc'
-    }
   },
   name: "test",
   data() {
     return {
-      code: '',
-      language: 'Python3',
-      theme: 'solarized',
-      problem: {
-        title: '',
-        description: '',
-        hint: '',
-        my_status: '',
-        template: {},
-        languages: [],
-        created_by: {
-          username: ''
-        },
-        tags: [],
-        io_mode: {'io_mode': 'Standard IO'}
-      },
+      code: 'const a = 10',
+      cmOptions: {
+        tabSize: 4,
+        mode: 'text/javascript',
+        theme: 'base16-dark',
+        lineNumbers: true,
+        line: true,
+        // more CodeMirror options...
+      }
+    }
+  },
+  methods: {
+    onCmReady3() {
+      this.$refs.myCmGenerate.codemirror.setSize('400px', '400px')
+    },
+    onCmFocus(instance, event) {
+      console.log(instance)
+      console.log(event)
+    },
+    onCmCodeChange(instance, obj) {
+      console.log(instance)
+      console.log(obj)
+    }
+  },
+  computed: {
+    codemirror() {
+      return this.$refs.cmEditor.codemirror
     }
   },
   mounted() {
-
-  },
-  methods: {
-    onChangeLang (newLang) {
-      if (this.problem.template[newLang]) {
-        if (this.code.trim() === '') {
-          this.code = this.problem.template[newLang]
-        }
-      }
-      this.language = newLang
-    },
-    onChangeTheme (newTheme) {
-      this.theme = newTheme
-    },
-    onResetToTemplate () {
-      console.log('重置')
-    },
+    console.log('the current CodeMirror instance object:', this.codemirror)
+    // you can use this.codemirror to do something...
   }
 }
 </script>
 
 <style scoped>
-  .CodeMirror {
-    height: auto !important;
-  }
-  .CodeMirror-scroll {
-    min-height: 300px;
-    max-height: 1000px;
-  }
+
 </style>

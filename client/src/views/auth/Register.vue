@@ -47,8 +47,7 @@
 
 <script>
 import {Base, Auth} from '../../components/mixins'
-import ElMessage from 'element-ui'
-
+import { ElMessage } from 'element-plus'
 export default {
   name: "Register",
   mixins: [Base, Auth],
@@ -77,7 +76,7 @@ export default {
   watch: {
     // 检查用户名
     username: {
-      handler() {
+      handler(old_val, new_val) {
         const len = this.username.length;
         if (len > 0) {
           if (len<3 || len>20) {
@@ -110,7 +109,7 @@ export default {
     },
     // 检查密码
     password: {
-      handler() {
+      handler(old_val, new_val) {
         const len = this.password.length;
         if (len > 0) {
           this.error_password = len < 8 || len > 20;
@@ -121,13 +120,13 @@ export default {
     },
     // 检查确认密码
     password2: {
-      handler() {
+      handler(old_val, new_val) {
         this.error_check_password = this.password !== this.password2;
       }
     },
     // 检查手机号
     mobile: {
-      handler() {
+      handler(old_val, new_val) {
         this.check_phone()
       }
     },
@@ -224,8 +223,7 @@ export default {
       // 向后端发送请求
       this.$axios.get(this.$host + '/api/v1' + '/sms_codes/' + this.mobile + '/', {
         responseType: 'json'
-      }).then(res => {
-        console.log(res)
+      }).then(response => {
         // 发送成功
         // 倒计时 60s，允许 60s 后用户可以再次点击获取验证码按钮
         let num = 60;
@@ -243,7 +241,9 @@ export default {
         }, 1000, 60)
       })
       .catch(error => {
-        console.log(error)
+        if (error.response.status === 400) {
+
+        }
         this.sending_flag = false;
       })
     }
@@ -263,13 +263,8 @@ export default {
   .login-container {
     border-radius: 15px;
     background-clip: padding-box;
-    margin: auto;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: max-content;
+    margin: 7% auto;
+
     width: 350px;
     padding: 35px 35px 15px 35px;
     background: #fff;

@@ -76,28 +76,24 @@
 
         <el-divider style="width: 160px; margin: 15px 0"></el-divider>
 
-        <div v-if="count > 0">
-          <transition-group>
-
-            <el-card v-for="problem in problems" :key="problem.id" class="items" shadow="hover">
-              <div @click="to_path('/problems/' + problem.id)" class="problem_container">
-                <div class="problem_info">
-                  <h4 style="display: inline">{{ problem.id + ". " + problem.name }}</h4>
-                  <span class="headers">{{ problem.header }}</span>
-                  <div class="tips">
-                    <span class="tip">算法类型：{{ problem['alg_type'] }}</span>
-                    <span class="tip">数据结构：{{ problem['ds_type'] }}</span>
-                  </div>
-                </div>
-
-                <div class="problem_status" v-if="problem.status">
-                  已通过 <i class="el-icon-check"></i>
+        <transition-group>
+          <el-card v-if="count > 0" v-for="problem in problems" :key="problem.id" @click="to_path('/problems/' + problem.id)" class="items" shadow="hover">
+            <div class="problem_container">
+              <div class="problem_info">
+                <h4 style="display: inline">{{ problem.id + ". " + problem.name }}</h4>
+                <span class="headers">{{ problem.header }}</span>
+                <div class="tips">
+                  <span class="tip">算法类型：{{ problem['alg_type'] }}</span>
+                  <span class="tip">数据结构：{{ problem['ds_type'] }}</span>
                 </div>
               </div>
-            </el-card>
-          </transition-group>
-        </div>
 
+              <div class="problem_status" v-if="problem.status">
+                已通过 <i class="el-icon-check"></i>
+              </div>
+            </div>
+          </el-card>
+        </transition-group>
         <el-card v-if="count === 0" @click="reset_query" style="margin: 30px 0; font-size: 14px; cursor: pointer">没有数据，点击重置全部查询条件</el-card>
 
         <el-pagination
@@ -123,7 +119,7 @@
         <el-divider style="margin: 0"></el-divider>
 
 
-        <div style="color: rgb(96, 98, 102); font-weight: 500; font-size: 15px" class="example" v-for="(rank, index) in rankings.slice(0, 10)" :key="index">
+        <div style="color: rgb(96, 98, 102); font-weight: 500; font-size: 15px" class="example" v-for="(rank, index) in rankings.slice(0, 10)">
           <span class="example_rank" style="font-size: 14px; font-weight: bold">{{index + 1}}</span>
           <span class="example_user">{{rank['user__username']}}</span>
           <span class="example_cnt">{{rank['solved_problems__count']}}</span>
@@ -145,7 +141,7 @@
 
 <script>
 import {Base, Auth} from '../../components/mixins'
-import ElMessage from "element-ui"
+import {ElMessage} from "element-plus";
 
 export default {
   mixins: [Base, Auth],
@@ -203,7 +199,7 @@ export default {
   },
   watch: {
     count: {
-      handler() {
+      handler(old_val, new_val) {
         if (this.count === 0) {
           this.tips_msg = ElMessage({
             message: '当前没有查询到匹配记录',
@@ -221,7 +217,6 @@ export default {
     get_problems_with_tag(type, tag) {
       let i;
       let elements = document.getElementsByClassName(type)
-      console.log(elements)
       // 循环所有标签，找到选中下标，和之前选择到的下标
       let index_now;
       let index_old = -1;
@@ -443,7 +438,7 @@ export default {
   user-select: none;
 }
 
-.ranting > >>> .el-card > .el-card__body {
+.ranting > ::v-deep(.el-card) > .el-card__body {
   padding: 20px 30px;
 }
 
@@ -456,7 +451,7 @@ export default {
   margin: 10px 0;
 }
 
-.items >>> .el-card > .el-card__body {
+.items ::v-deep(.el-card) > .el-card__body {
   padding: 12px 0 12px 20px;
 }
 

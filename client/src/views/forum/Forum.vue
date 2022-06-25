@@ -5,33 +5,31 @@
         <div class="main">
           <el-tabs v-model="activeName" @tab-click="handleClick">
 
-            <el-tab-pane v-for="tp in tabPanes" :label="tp.label" :name="tp.name" :key="tp.name">
+            <el-tab-pane v-for="tp in tabPanes" :label="tp.label" :name="tp.name">
 
               <transition-group>
-                <el-card v-for="forum in forums" :key="forum.id" class="items" shadow="always" title="点击查看详情">
-                  <div @click="to_path('/forum/' + forum.id)">
-                    <div class="header">
-                      <div class="title">{{forum.title}}</div>
-  <!--                    <div class="watch">浏览次数：50</div>-->
-                      <div class="watch">获赞次数：{{forum['like_cnt'].length}}</div>
-                    </div>
-                    <div class="forum-content">{{forum.content}}</div>
-                    <el-divider style="margin: 18px 0 0 0"></el-divider>
-                    <div class="tip">
-                      发布于：<el-button type="text">{{forum['publish_date']}}</el-button>
+                <el-card v-for="forum in forums" :key="forum.id" @click="to_path('/forum/' + forum.id)" class="items" shadow="always" title="点击查看详情">
+                  <div class="header">
+                    <div class="title">{{forum.title}}</div>
+<!--                    <div class="watch">浏览次数：50</div>-->
+                    <div class="watch">获赞次数：{{forum['like_cnt'].length}}</div>
+                  </div>
+                  <div class="content">{{forum.content}}</div>
+                  <el-divider style="margin: 18px 0 0 0"></el-divider>
+                  <div class="tip">
+                    发布于：<el-button type="text">{{forum['publish_date']}}</el-button>
 
-                      <el-divider v-if="~forum['modified']" style="margin: 0 20px" direction="vertical"></el-divider>
+                    <el-divider v-if="~forum['modified']" style="margin: 0 20px" direction="vertical"></el-divider>
 
-                      <span v-if="forum['modified']">最后修改于：<el-button type="text">{{forum['publish_date']}}</el-button></span>
+                    <span v-if="forum['modified']">最后修改于：<el-button type="text">{{forum['publish_date']}}</el-button></span>
 
-                      <el-divider v-if="forum['modified']" style="margin: 0 20px" direction="vertical"></el-divider>
+                    <el-divider v-if="forum['modified']" style="margin: 0 20px" direction="vertical"></el-divider>
 
-                      <span class="tip">来自 <el-button type="text" class="identity">
-                        <span v-if="forum['author_is_admin'] === 'True'">管理员</span>
-                        <span v-if="forum['author_is_p'] === 'True'">用户</span>
-                        <span v-if="forum['author_is_oc'] === 'True'">机构</span>
-                      </el-button>：<el-tag>{{forum['author_username']}}</el-tag></span>
-                    </div>
+                    <span class="tip">来自 <el-button type="text" class="identity">
+                      <span v-if="forum['author_is_admin'] === 'True'">管理员</span>
+                      <span v-if="forum['author_is_p'] === 'True'">用户</span>
+                      <span v-if="forum['author_is_oc'] === 'True'">机构</span>
+                    </el-button>：<el-tag>{{forum['author_username']}}</el-tag></span>
                   </div>
                 </el-card>
               </transition-group>
@@ -87,7 +85,7 @@
             <el-divider style="margin: 0"></el-divider>
 
 
-            <div @click="to_path('/forum/' + data.id)" class="show" v-for="data in forum_post.slice(0, 10)" :key="data.id">
+            <div @click="to_path('/forum/' + data.id)" class="show" v-for="data in forum_post.slice(0, 10)">
               <div style="font-size: 14px; font-weight: bold">{{data.title}}</div>
               <div class="example_bottom">
                 <div style="color: rgb(64,188,255);font-size: 13px" class="example_date">{{data['publish_date']}}</div>
@@ -112,8 +110,6 @@
 
 <script>
 import {Base, Auth} from '../../components/mixins'
-import {get_my_forums, get_forums} from '../../api/forum'
-
 export default {
   name: "forum",
   mixins: [Base, Auth],
@@ -163,26 +159,33 @@ export default {
 
     // 获取数据
     get_forums() {
-      let params = {
-        page: this.page,
-        page_size: this.page_size,
-        ordering: this.ordering,
-        from: this.activeName
-      };
-      get_forums(params).then(res => {
-        this.count = res.data.count
-        this.forums = res.data.results
-      }).catch(err => {
-        console.log(err)
+      this.$axios.get(this.$host + "/api/v1/forums/", {
+        params: {
+          page: this.page,
+          page_size: this.page_size,
+          ordering: this.ordering,
+          from: this.activeName
+        },
+        responseType: 'json'
+      }).then(response => {
+        this.count = response.data.count
+        this.forums = response.data.results
+      }).catch(error => {
+        console.log(error.response.data)
       })
     },
 
     get_my_forums() {
       if (this.user_id && this.token) {
-        get_my_forums().then(res => {
-          this.forum_post = res.data['forum_author']
-        }).catch(err => {
-          console.log(err)
+        this.$axios.get(this.$host + "/api/v1/user/", {
+        // 向后端传递 JWT token 的方法
+        headers: {
+          'Authorization': 'JWT ' + this.token
+        },
+        responseType: 'json'
+        }).then(response => {
+          // 加载用户数据
+          this.forum_post = response.data['forum_author']
         })
       }
     }
@@ -215,7 +218,7 @@ export default {
   margin: 10px 0 20px 0;
 }
 
-.items >>> .el-card > .el-card__body {
+.items ::v-deep(.el-card) > .el-card__body {
   padding: 12px 25px 8px 25px;
 }
 
@@ -241,7 +244,7 @@ export default {
   text-align: right;
 }
 
-.forum-content {
+.content {
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -256,7 +259,7 @@ export default {
   font-size: 14px;
 }
 
-.tip >>> .el-tag {
+.tip ::v-deep(.el-tag) {
   height: 30px;
   line-height: 30px;
 }

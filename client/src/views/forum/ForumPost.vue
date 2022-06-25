@@ -43,7 +43,7 @@
 
 <script>
 import {Base, Auth} from '../../components/mixins'
-import ElMessage from "element-ui";
+import {ElMessage} from "element-plus";
 
 export default {
   name: "ForumPost",

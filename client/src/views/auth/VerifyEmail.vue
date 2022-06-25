@@ -23,13 +23,11 @@ export default {
   },
   created: function(){
     this.$axios.get(this.$host + '/api/v1/emails/verification/'+ document.location.search)
-       .then(res => {
-         console.log(res)
-         this.success = true;
+       .then(response => {
+           this.success = true;
        })
        .catch(error => {
-         console.log(error)
-         this.success = false;
+           this.success = false;
        });
   }
 }

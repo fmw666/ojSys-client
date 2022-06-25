@@ -1,8 +1,14 @@
 module.exports = {
+    publicPath: '',
+    outputDir: 'dist',
+    assetsDir: 'static',
+    lintOnSave: false,
+    runtimeCompiler: false,
+    productionSourceMap: false,
 
     devServer: {
         host: 'localhost',
-        port: 8080,
+        port: 3000,
         https: false,
         proxy: {
           '/api': {

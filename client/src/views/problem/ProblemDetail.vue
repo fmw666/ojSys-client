@@ -41,22 +41,10 @@
     <div class="text_input">
       <div class="code_text">
 
-<!--        <textarea style="height: 100%; width: 100%; resize: none" id="code_input" ref="textarea" v-model="code" rows="40" cols="80" autofocus></textarea>-->
-        <CodeMirror :value.sync="code"
-                    :languages="problem.languages"
-                    :language="language"
-                    :theme="theme"
-                    @resetCode="onResetToTemplate"
-                    @changeTheme="onChangeTheme"
-                    @changeLang="onChangeLang"></CodeMirror>
+        <textarea style="height: 100%; width: 100%; resize: none" id="code_input" ref="textarea" v-model="code" rows="40" cols="80" autofocus></textarea>
       </div>
       <div class="extra">
-        <el-button-group style="float: right" >
-          <el-button circle type="primary" icon="el-icon-refresh-right"></el-button>
-
-          <el-button type="primary" icon="el-icon-folder-opened">保存</el-button>
-          <el-button @click="execute" type="primary" icon="el-icon-edit">运行</el-button>
-        </el-button-group>
+        <el-button style="float: right" @click="execute" type="primary" icon="el-icon-edit">运行</el-button>
         <span style="line-height: 39px; width: 50px">
           <span class="status" style="font-size: 15px">运行结果：</span>
           <span class="status_code">
@@ -91,29 +79,18 @@
 </template>
 
 <script>
-import {Base, Auth} from '../../components/mixins';
-import CodeMirror from "../../components/CodeMirror";
+import {Base, Auth} from '../../components/mixins'
 
-export default ({
+import { defineComponent } from 'vue'
+import { ElMessage } from 'element-plus'
+export default defineComponent({
   name: "ProblemPage",
   mixins: [Base, Auth],
 
-  components: {
-    CodeMirror
-  },
-  props: {
-    value: {
-      type: String,
-      default: ''
-    },
-    mode: {
-      type: String,
-      default: 'python'
-    }
-  },
-
   data() {
     return {
+      code: '',
+
       drawer: false,
       direction: 'ltr',
 
@@ -132,33 +109,12 @@ export default ({
       result: '',
       msg: '',
 
-      code: '',
-      language: 'Python3',
-      theme: 'solarized',
-      problem: {
-        title: '',
-        description: '',
-        hint: '',
-        my_status: '',
-        template: {},
-        languages: [],
-        created_by: {
-          username: ''
-        },
-        tags: [],
-        io_mode: {'io_mode': 'Standard IO'}
-      },
     }
   },
   watch: {
-
-// eslint-disable-next-line no-irregular-whitespace
-　　'$route'() {
-// eslint-disable-next-line no-irregular-whitespace
-　 　 this.$router.go(0);
-
-// eslint-disable-next-line no-irregular-whitespace
-　　 }
+　　'$route' (to, from) {
+　 　this.$router.go(0);
+　　  }
   },
   mounted() {
     this.login_tip(true)
@@ -179,30 +135,14 @@ export default ({
           console.log(response.data.pid)
           this.to_path('/problems/' + response.data.pid)
         } else {
-          this.$message({
-            message: '获取题目失败',
-            type: 'error'
-          });
+          ElMessage.error('获取题目失败')
         }
       })
     },
 
-    onChangeLang (newLang) {
-      if (this.problem.template[newLang]) {
-        if (this.code.trim() === '') {
-          this.code = this.problem.template[newLang]
-        }
-      }
-      this.language = newLang
+    onEditorCodeChange (newCode) {
+      this.$emit('update:value', newCode)
     },
-    onChangeTheme (newTheme) {
-      this.theme = newTheme
-    },
-    onResetToTemplate () {
-      console.log('重置')
-    },
-
-
     login_tip(flag) {
       // 判断用户登录状态
       if (this.user_id && this.token) {
@@ -222,14 +162,14 @@ export default ({
           }
           this.login_flag = true
         }).catch(error => {
-          console.log(error)
+
         });
       } else {
         if (flag) {
-          this.$message({
+          ElMessage({
             showClose: true,
-            message: '未登录，请先登录',
-            type: 'warning',
+            dangerouslyUseHTMLString: true,
+            message: '未登录，请先 <b>登录</b> 才能提交代码',
             duration: 5000
           });
         }
@@ -322,12 +262,12 @@ export default ({
   opacity: 1;
 }
 
+
 .description {
   display: inline-block;
-  width: 46%;
+  width: 50%;
   /*height: 500px;*/
   height: 70vh;
-  box-sizing: border-box;
 }
 
 .scrollbar {
@@ -335,8 +275,6 @@ export default ({
   -webkit-box-shadow:0 3px 3px #c3c3c3 inset;
   -moz-box-shadow:0 3px 3px #c3c3c3 inset;
   box-shadow:0 0 8px 2px #c3c3c3 inset;
-  height: 100%;
-
 }
 
 .header {
@@ -380,14 +318,13 @@ export default ({
 .text_input {
 
   display: inline-block;
-  width: 50%;
+  width: 45%;
   float: right;
-  height: 70vh;
-  box-sizing: border-box;
+  height: 100%;
 }
 
 .text_input > .code_text {
-  height: 100%;
+  height: 69.4vh;
   width: 100%;
 }
 

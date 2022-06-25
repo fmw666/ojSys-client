@@ -35,6 +35,8 @@
 <script>
 import {Base, Auth} from '../../components/mixins'
 
+import {ElMessage} from "element-plus";
+
 export default {
   name: "login",
   mixins: [Base, Auth],
@@ -48,7 +50,7 @@ export default {
   },
   watch: {
     username: {
-      handler() {
+      handler(old_val, new_val) {
         const len = this.username.length;
         if (len > 0) {
           this.error_username = len < 3 || len > 20;
@@ -58,7 +60,7 @@ export default {
       }
     },
     password: {
-      handler() {
+      handler(old_val, new_val) {
         const len = this.password.length;
         if (len > 0) {
           this.error_password = len < 8 || len > 20;
@@ -80,54 +82,49 @@ export default {
       }).then(response => {
         console.log(response.data)
         this.username = response.data.username
-        this.$message.warning('请在退出登录后再访问')
+        ElMessage.warning('请在退出登录后再访问')
         this.$router.push('/')
       }).catch(error => {
-        console.log(error)
+
       });
     }
   },
   methods: {
     submit() {
       if (this.error_username === false && this.error_password === false && this.username !== '' && this.password !== '') {
-        this.$axios.post(this.$host + "/api/v1/api-token-auth/", {
+        this.$axios.post(this.$host + "/api-token-auth/", {
           username: this.username,
           password: this.password
         }, {
           responseType: 'json',
           withCredentials: true
         })
-        .then(res => {
+        .then(response => {
           if (this.remember) {
             // 记住登录
             sessionStorage.clear();
-            localStorage.token = res.data.token;
-            localStorage.user_id = res.data.user_id;
-            localStorage.username = res.data.username;
+            localStorage.token = response.data.token;
+            localStorage.user_id = response.data.user_id;
+            localStorage.username = response.data.username;
           } else {
             // 未记住登录
             localStorage.clear();
-            sessionStorage.token = res.data.token;
-            sessionStorage.user_id = res.data.user_id;
-            sessionStorage.username = res.data.username;
+            sessionStorage.token = response.data.token;
+            sessionStorage.user_id = response.data.user_id;
+            sessionStorage.username = response.data.username;
           }
-          this.$store.commit("setToken", res.data.token);
-          this.$store.commit("setUserId", res.data.user_id);
-          this.$store.commit("setUsername", res.data.username);
-
           // 跳转页面
           let return_url = this.get_query_string('next');
           if (!return_url) {
             return_url = '/';
           }
-          location.href = return_url;
+          location.href = return_url
         })
         .catch(error => {
-          console.log(error)
-          this.$message.error('用户名/手机号 或 密码 有误');
+          ElMessage.error('用户名/手机号 或 密码 有误');
         })
       } else {
-        this.$message.error('请检查您的输入');
+        ElMessage.error('请检查您的输入');
       }
     },
     // 重置表单
@@ -153,13 +150,7 @@ export default {
   .login-container {
     border-radius: 15px;
     background-clip: padding-box;
-    margin: auto;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: max-content;
+    margin: 10% auto;
     width: 350px;
     padding: 35px 35px 15px 35px;
     background: #fff;

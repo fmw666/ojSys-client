@@ -1,13 +1,4 @@
-import VueRouter from 'vue-router'
-import Vue from "vue"
-Vue.use(VueRouter)
-
-const originalPush = VueRouter.prototype.push
-
-VueRouter.prototype.push = function push(location) {
-  return originalPush.call(this, location).catch(err => err)
-}
-
+import {createRouter, createWebHistory} from 'vue-router'
 import Index from '../views/Index.vue'
 import Problems from '../views/problem/Problems.vue'
 import ProblemDetail from "../views/problem/ProblemDetail.vue";
@@ -190,8 +181,8 @@ const routes = [
   }
 ]
 
-const router = new VueRouter({
-  mode: 'history',
+const router = createRouter({
+  history: createWebHistory(),
   routes
 })
 

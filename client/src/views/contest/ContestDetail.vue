@@ -35,7 +35,7 @@
           <div class="msg">赛后情况</div>
           <div class="content">提交用户（排名不分先后）：</div>
           <div style="margin-bottom: 26px;">
-            <el-button style="padding-bottom: 0; margin: 0 10px 0 0" type="text" v-for="cu in end_commit_users" :key="cu">
+            <el-button style="padding-bottom: 0; margin: 0 10px 0 0" type="text" v-for="cu in end_commit_users">
               {{cu[0]}}
             </el-button>
           </div>
@@ -72,7 +72,7 @@
           <div class="msg">题目列表</div>
           <div style="margin-left: 30px; font-size: 15px; margin-bottom: 10px">题目总数：</div>
           <div style="margin-left: 30px">
-            <div v-for="(p, index) in end_problems" :key="index">
+            <div v-for="(p, index) in end_problems">
               {{index + 1}}、<el-button @click="to_path('/problems/' + p[1])" type="text" style="font-size: 16px; padding-bottom: 0">{{p[0]}}</el-button>
             </div>
           </div>
@@ -121,7 +121,7 @@
 
       <div class="msg" style="margin: 10px 0 30px 40px; font-size: 14px">——主办方：{{holder}}</div>
       <div style="margin-top: 20px">
-        <div v-for="cp in contest_problems.slice((page-1), page)" :key="cp">
+        <div v-for="cp in contest_problems.slice((page-1), page)">
           <div class="description">
             <el-scrollbar native class="scrollbar">
               <div style="margin: 20px 30px 30px 30px; height: max-content">
@@ -208,9 +208,10 @@
 <script>
 import {Base, Auth} from '../../components/mixins'
 
-import ElMessage from "element-ui";
+import {defineComponent} from 'vue'
+import {ElMessage} from "element-plus";
 
-export default ({
+export default defineComponent({
   name: "ContestDetail",
   mixins: [Base, Auth],
   data() {
@@ -412,8 +413,7 @@ export default ({
             }
           }, 1000)
 
-      }).catch(error => {
-        console.log(error)
+      }).catch(_ => {
         // 肯定是没有比赛
         ElMessage.error('没有该比赛，访问错误！')
         this.to_path('/contests')
@@ -462,8 +462,7 @@ export default ({
           if (this.contest_problems.length === 0) {
             this.to_path('/contests')
           }
-        }).catch(error => {
-          console.log(error)
+        }).catch(_ => {
           // 肯定是没权限，偷偷跑进来的，赶出去！
           this.to_path('/contests')
         })
@@ -631,7 +630,7 @@ export default ({
 
 <style scoped>
 
-.container >>> .el-card {
+.container ::v-deep(.el-card) {
   padding: 10px 20px;
 }
 .header {
@@ -675,11 +674,11 @@ export default ({
   flex: 1;
 }
 
-.tables >>> .el-table__expanded-cell {
+.tables  ::v-deep(.el-table__expanded-cell) {
   padding: 20px;
 }
 
-.tables >>> .el-table__expanded-cell div {
+.tables  ::v-deep(.el-table__expanded-cell) div {
   margin-bottom: 10px;
 }
 
